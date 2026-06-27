@@ -21,8 +21,8 @@ function Contact() {
   const [form, setForm] = useState({ name: "", company: "", email: "", phone: "", topic: "Sales inquiry", message: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const PHONE = "+91 90333 33258";
-  const PHONE_DIGITS = "919033333258";
+  const PHONE = "+91 9033786017";
+  const PHONE_DIGITS = "919033786017";
   const EMAIL = "sales@kohinoorpolytech.com";
   const ADDRESS = "Kim Station Road, Mota Borasara, Kim 394110, Surat, Gujarat, India";
   const WHATSAPP = `https://wa.me/${PHONE_DIGITS}?text=${encodeURIComponent("Hello Kohinoor Polytech, I would like to enquire about your polymer products.")}`;

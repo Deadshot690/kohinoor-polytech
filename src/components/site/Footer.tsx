@@ -4,21 +4,21 @@ import { Mail, Phone, MapPin, Linkedin, Twitter, Youtube, Instagram } from "luci
 
 export function Footer() {
   return (
-    <footer className="relative mt-32 border-t border-white/5 bg-gradient-to-b from-transparent to-black/40">
+    <footer className="relative mt-32 border-t border-border bg-gradient-to-b from-transparent to-card/20">
       <div className="hairline" />
       <div className="mx-auto max-w-7xl px-6 py-20 grid gap-12 lg:grid-cols-5">
         <div className="lg:col-span-2 space-y-6">
-          <Logo className="h-12" />
+          <Logo className="h-24 md:h-28" />
           <p className="text-sm text-muted-foreground max-w-sm">
             Kohinoor Polytech engineers sustainable polypropylene compounds and recycled granules for the world's most demanding manufacturers.
           </p>
           <form className="flex gap-2 max-w-sm">
-            <input type="email" placeholder="Subscribe to insights" className="flex-1 rounded-full bg-white/5 border border-white/10 px-4 py-2.5 text-sm outline-none focus:border-brand-cyan/60" />
+            <input type="email" placeholder="Subscribe to insights" className="flex-1 rounded-full bg-secondary border border-border px-4 py-2.5 text-sm outline-none focus:border-brand-cyan/60 text-foreground" />
             <button className="btn-primary text-xs px-5 py-2">Subscribe</button>
           </form>
           <div className="flex gap-3">
             {[Linkedin, Twitter, Youtube, Instagram].map((Icon, i) => (
-              <a key={i} href="#" className="h-9 w-9 grid place-items-center rounded-full border border-white/10 bg-white/[0.03] hover:bg-white/10 transition-colors">
+              <a key={i} href="#" className="h-9 w-9 grid place-items-center rounded-full border border-border bg-secondary hover:bg-muted transition-colors">
                 <Icon className="h-4 w-4 text-muted-foreground" />
               </a>
             ))}
@@ -52,7 +52,7 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-white/5">
+      <div className="border-t border-border">
         <div className="mx-auto max-w-7xl px-6 py-6 flex flex-wrap items-center justify-between gap-4 text-xs text-muted-foreground">
           <div>© {new Date().getFullYear()} Kohinoor Polytech. Engineering the future of sustainable polymers.</div>
           <div className="flex gap-6">

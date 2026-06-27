@@ -7,8 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Send } from "lucide-react";
 import { OPEN_LEAD_DIALOG_EVENT, saveLead, type LeadDialogPrefill } from "@/lib/leads";
 
-const PHONE_DIGITS = "919033333258";
-const PHONE = "+91 90333 33258";
+const PHONE_DIGITS = "919033786017";
+const PHONE = "+91 9033786017";
 
 function makeWhatsAppUrl(form: typeof empty, source: string) {
   const messageLines = [

@@ -33,12 +33,12 @@ function Granules({ color = "#2563EB" }: { color?: string }) {
   );
 }
 
-export default function GranuleSphere({ color }: { color?: string }) {
+export default function GranuleSphere({ color = "#2563EB" }: { color?: string }) {
   return (
     <Canvas camera={{ position: [0, 0, 3.2], fov: 50 }} dpr={[1, 1.5]} gl={{ alpha: true, antialias: true }} style={{ background: "transparent" }}>
       <ambientLight intensity={0.5} />
       <directionalLight position={[3, 3, 3]} intensity={1.4} />
-      <pointLight position={[-2, -2, 2]} intensity={0.8} color="#22C55E" />
+      <pointLight position={[-2, -2, 2]} intensity={0.8} color={color} />
       <Granules color={color} />
     </Canvas>
   );

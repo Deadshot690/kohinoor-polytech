@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
-import { useRef, lazy, Suspense } from "react";
+import { useRef, lazy, Suspense, useState } from "react";
 import { ArrowRight, Sparkles, ShieldCheck, Layers, Palette, Truck, Recycle, Cpu, Factory, Leaf, Quote, ChevronRight } from "lucide-react";
 import { Section, SectionHeader, GlassCard } from "@/components/site/Section";
 import { products, productCategories, industries } from "@/data/products";
@@ -117,6 +117,20 @@ function Hero() {
 }
 
 function WhoWeAre() {
+  const [sphereColor, setSphereColor] = useState("#2563EB");
+  
+  const colors = [
+    { name: "Blue", value: "#2563EB" },
+    { name: "Green", value: "#22C55E" },
+    { name: "Red", value: "#EF4444" },
+    { name: "Orange", value: "#F97316" },
+    { name: "Maroon", value: "#7F1D1D" },
+    { name: "White", value: "#FFFFFF" },
+    { name: "Black", value: "#09090B" },
+    { name: "Cyan", value: "#06B6D4" },
+    { name: "Yellow", value: "#EAB308" },
+  ];
+
   return (
     <Section>
       <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -137,16 +151,40 @@ function WhoWeAre() {
             ))}
           </div>
         </div>
-        <div className="relative aspect-square rounded-3xl glass overflow-hidden">
-          <Suspense fallback={null}>
-            <GranuleSphere color="#2563EB" />
-          </Suspense>
-          <div className="absolute bottom-5 left-5 right-5 glass-strong rounded-xl p-4 flex items-center justify-between">
-            <div>
-              <div className="text-xs uppercase tracking-widest text-brand-cyan">Polymer molecule</div>
-              <div className="font-medium">Polypropylene · C₃H₆</div>
+        <div className="relative aspect-square rounded-3xl glass overflow-hidden flex flex-col justify-end">
+          <div className="absolute inset-0 z-0">
+            <Suspense fallback={null}>
+              <GranuleSphere color={sphereColor} />
+            </Suspense>
+          </div>
+          <div className="absolute bottom-5 left-5 right-5 glass-strong rounded-xl p-4 flex flex-col gap-3 z-10 shadow-lg border border-white/10">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-xs uppercase tracking-widest text-brand-cyan font-semibold">Polymer Molecule / Granules</div>
+                <div className="font-medium text-sm">Interactive 3D Preview</div>
+              </div>
+              <div className="font-num text-xs text-muted-foreground px-2 py-0.5 rounded-full border border-white/10 bg-white/5">Live</div>
             </div>
-            <div className="font-num text-sm text-muted-foreground">Live · 3D</div>
+            
+            <div className="border-t border-white/5 pt-2">
+              <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1.5 font-medium">Select Granule Color:</div>
+              <div className="flex flex-wrap gap-2">
+                {colors.map((c) => (
+                  <button
+                    key={c.value}
+                    onClick={() => setSphereColor(c.value)}
+                    className={`h-5 w-5 rounded-full border transition-all duration-300 relative cursor-pointer ${
+                      sphereColor === c.value 
+                        ? "ring-2 ring-brand-cyan ring-offset-2 ring-offset-black scale-110 border-white" 
+                        : "border-white/20 hover:scale-110"
+                    }`}
+                    style={{ backgroundColor: c.value }}
+                    title={c.name}
+                    aria-label={`Select ${c.name} color`}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -227,26 +265,61 @@ function WhyChoose() {
 }
 
 function ProductShowcase() {
-  const featured = products.slice(0, 6);
+  const featuredSlugs = [
+    "pp-red-j",       // Red
+    "pp-green-j",     // Green
+    "ppcp-orange",    // Orange
+    "ppcp-white",     // White
+    "pp-blue-j",      // Blue
+    "pp-yellow-j",    // Yellow
+    "ppcp-red",       // Maroon
+    "pp-black-j"      // Black
+  ];
+
+  const featured = featuredSlugs
+    .map(slug => products.find(p => p.slug === slug))
+    .filter(Boolean) as typeof products;
+
   return (
     <Section className="border-t border-white/5">
       <SectionHeader
         eyebrow="Product categories"
         title={<>Engineered <span className="text-gradient">polymer ranges</span> for every application.</>}
       />
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
         {featured.map((p) => (
-          <Link key={p.slug} to="/products/$slug" params={{ slug: p.slug }} className="glass rounded-2xl p-6 group relative overflow-hidden">
-            <div className="absolute -top-10 -right-10 h-32 w-32 rounded-full blur-3xl opacity-50 group-hover:opacity-80 transition-opacity" style={{ background: p.swatch }} />
-            <div className="flex items-center justify-between relative">
-              <span className="chip">{p.category}</span>
-              <div className="h-6 w-6 rounded-full ring-2 ring-white/20" style={{ background: p.swatch }} />
+          <Link key={p.slug} to="/products/$slug" params={{ slug: p.slug }} className="glass rounded-2xl p-6 group relative overflow-hidden flex flex-col justify-between">
+            <div>
+              <motion.div 
+                className="absolute -top-10 -right-10 h-36 w-36 rounded-full blur-3xl pointer-events-none" 
+                style={{ background: p.swatch }}
+                animate={{
+                  scale: [1, 1.3, 0.9, 1.2, 1],
+                  opacity: [0.35, 0.6, 0.4, 0.55, 0.35],
+                  x: [0, 8, -6, 4, 0],
+                  y: [0, -6, 8, -4, 0],
+                }}
+                transition={{
+                  duration: 8 + Math.random() * 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                whileHover={{
+                  scale: 1.5,
+                  opacity: 0.9,
+                  transition: { duration: 0.3, ease: "easeOut" }
+                }}
+              />
+              <div className="flex items-center justify-between relative z-10">
+                <span className="chip">{p.category}</span>
+                <div className="h-6 w-6 rounded-full ring-2 ring-white/20 shadow-md transition-transform group-hover:scale-110" style={{ background: p.swatch }} />
+              </div>
+              <div className="mt-6 font-medium text-xl relative z-10">{p.name}</div>
+              <p className="mt-2 text-sm text-muted-foreground line-clamp-2 relative z-10">{p.description}</p>
             </div>
-            <div className="mt-6 font-medium text-xl">{p.name}</div>
-            <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{p.description}</p>
-            <div className="mt-6 flex items-center justify-between text-xs text-muted-foreground border-t border-white/5 pt-4">
+            <div className="mt-6 flex items-center justify-between text-xs text-muted-foreground border-t border-white/5 pt-4 relative z-10">
               <span className="font-num">MFI {p.mfi}</span>
-              <span className="flex items-center gap-1 group-hover:text-brand-cyan">View <ChevronRight className="h-3 w-3" /></span>
+              <span className="flex items-center gap-1 group-hover:text-brand-cyan transition-colors">View <ChevronRight className="h-3 w-3" /></span>
             </div>
           </Link>
         ))}
@@ -386,8 +459,8 @@ function CTA() {
             </p>
           </div>
           <div className="flex flex-col gap-3 md:items-end">
-            <button type="button" onClick={() => openLeadDialog({ source: "home-cta" })} className="btn-primary">Get a Quote <ArrowRight className="h-4 w-4" /></button>
-            <Link to="/contact" className="btn-ghost">Contact Sales</Link>
+            <button type="button" onClick={() => openLeadDialog({ source: "home-cta" })} className="btn-primary w-full md:w-48">Get a Quote <ArrowRight className="h-4 w-4" /></button>
+            <Link to="/contact" className="btn-ghost w-full md:w-48">Contact Sales</Link>
           </div>
         </div>
       </div>
