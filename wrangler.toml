@@ -1,0 +1,8 @@
+name = "kohinoor-polytech"
+compatibility_date = "2026-07-05"
+main = "./dist/server/server.js"
+[build]
+command = "npm run build"
+[site]
+bucket = "dist/client"
+entry-point = "."
